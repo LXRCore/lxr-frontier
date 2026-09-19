@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.0 — 2026-09-19
+* LXRCore v3 release line: every resource ships as 3.0.0 from here (the entries below are the road to it).
+* The density loop is marked as the one reviewed per-frame loop ("ThisFrame" natives).
+
 ## 3.1.0 — 2026-09-19
 * `Config.Law`: lawmen react to players (config flag 98 on REL_COP peds via the core's game-event poller). NOT TESTED in game yet.
 

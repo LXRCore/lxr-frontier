@@ -14,7 +14,7 @@ local LXR = exports['lxr-core']:GetLXR()
 if Config.Density.on then
     CreateThread(function()
         local h, a, v = F.Density(Config.Density.humans), F.Density(Config.Density.animals), F.Density(Config.Density.vehicles)
-        while true do
+        while true do   -- perf:frame — "ThisFrame" natives: the game forgets them each frame, there is no other way
             N(0xBA0980B5C0A11924, h)   -- SetAmbientHumanDensityMultiplierThisFrame
             N(0xAB0D553FE20A6E25, h)   -- SetAmbientPedDensityMultiplierThisFrame
             N(0x28CB6391ACEDD9DB, h)   -- SetScenarioHumanDensityMultiplierThisFrame
