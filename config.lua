@@ -18,7 +18,7 @@
     Product:     wolves.land / The Land of Wolves
     Developer:   iBoss21 / LXRCore
     Website:     https://www.lxrcore.com
-    Discord:     https://discord.gg/ZHMKVYyhBa (development)
+    Discord:     https://discord.gg/GAhk8cgXe9
     GitHub:      https://github.com/LXRCore
 
     Version: 3.0.0
@@ -42,7 +42,7 @@ Config.Density = { on = true, humans = 0.6, animals = 0.8, vehicles = 0.4 }
 
 -- Discord rich presence (needs a Discord application id; assets are uploaded there)
 Config.Presence = { on = false, appId = '', largeAsset = 'lxrcore', largeText = 'The Land of Wolves', smallAsset = 'wolf', smallText = 'wolves.land', refreshSeconds = 60,
-    buttons = { { label = 'Discord', url = 'https://discord.gg/ZHMKVYyhBa' }, { label = 'wolves.land', url = 'https://www.wolves.land' } } }
+    buttons = { { label = 'Discord', url = 'https://discord.gg/GAhk8cgXe9' }, { label = 'wolves.land', url = 'https://www.wolves.land' } } }
 
 -- server-side idle kick: no movement for `minutes` (the server samples position; staff at `exemptGroup` are never kicked)
 Config.AFK = { on = true, minutes = 30, warnAtMinutes = 25, sampleSeconds = 30, moveMetres = 1.5, exemptGroup = 'mod' }
