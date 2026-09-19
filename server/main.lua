@@ -41,6 +41,37 @@ end)
 
 AddEventHandler('playerDropped', function() idle[source] = nil washedAt[source] = nil end)
 
+-- searching the dead: the body must exist, be dead, be near, and not have been searched
+local looted = {}   -- netId → os.time()
+RegisterNetEvent('lxr-frontier:server:loot', function(netId)
+    local src = source
+    if not Config.Loot.on then return end
+    netId = tonumber(netId) or 0
+    local ent = NetworkGetEntityFromNetworkId(netId)
+    local P = LXRCore.Functions.GetPlayer(src)
+    if not P or not ent or ent == 0 or not DoesEntityExist(ent) or IsPedAPlayer(ent) or GetEntityHealth(ent) > 0 then return end
+    local ped = GetPlayerPed(src)
+    if ped == 0 or #(GetEntityCoords(ped) - GetEntityCoords(ent)) > Config.Loot.distance + 1.5 then return end
+    if looted[netId] and os.time() - looted[netId] < (Config.Loot.rememberMinutes or 30) * 60 then return LXRCore.Notify(src, Lang:t('info.already_searched'), 'inform') end
+    looted[netId] = os.time()
+    local got = {}
+    local L = Config.Loot
+    if math.random() < (L.cash.chance or 0) then
+        local cents = math.random(L.cash.min or 5, L.cash.max or 150)
+        P.Functions.AddMoney('cash', cents / 100, 'searched a body')
+        got[#got + 1] = ('$%.2f'):format(cents / 100)
+    end
+    for _, e in ipairs(L.items or {}) do
+        if LXRShared.Items[e.item] and math.random() < (e.chance or 0) then
+            local n = math.random(e.min or 1, e.max or 1)
+            if P.Functions.AddItem(e.item, n, nil, nil, 'searched a body') then got[#got + 1] = ('%dx %s'):format(n, LXRShared.Items[e.item].label) end
+        end
+    end
+    LXRCore.Notify(src, #got > 0 and Lang:t('info.found', { what = table.concat(got, ', ') }) or Lang:t('info.nothing_on_them'), #got > 0 and 'success' or 'inform')
+    LXRCore.Emit('lxr:frontier:looted', nil, src, netId, got)
+end)
+CreateThread(function() while true do Wait(600000) local cut = os.time() - (Config.Loot.rememberMinutes or 30) * 60 for k, t in pairs(looted) do if t < cut then looted[k] = nil end end end end)
+
 -- washing: the server takes the fee, checks the tub, and sets the need
 RegisterNetEvent('lxr-frontier:server:washed', function(kind, tubId)
     local src = source

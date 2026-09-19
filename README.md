@@ -40,4 +40,5 @@ ensure lxr-frontier
 
 © 2026 iBoss21 / LXRCore — All Rights Reserved. See `LICENSE`.
 
+* **Searching the dead** — a card on dead NPCs: coins and the odd thing, once per body. `Config.Loot`.
 * **Washing** — a bath at the bathhouse tubs for a fee, or `/wash` at any water. `Config.Wash`.

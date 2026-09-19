@@ -130,6 +130,35 @@ if Config.Wash.on then
     end)
 end
 
+-- ═══════════════════════════════════════════════════════════════════════════════
+-- 💀 SEARCHING THE DEAD
+-- ═══════════════════════════════════════════════════════════════════════════════
+if Config.Loot.on then
+    CreateThread(function()
+        while GetResourceState('lxr-interact') ~= 'started' do Wait(1000) end
+        local busy = false
+        exports['lxr-interact']:AddGlobal('lxr-frontier:body', 'ped', { label = Lang:t('ui.body'), distance = Config.Loot.distance, options = {
+            { label = Lang:t('ui.search_body'), key = 'R', canInteract = function(e) return e and e ~= 0 and IsEntityDead(e) and not IsPedAPlayer(e) and NetworkGetEntityIsNetworked(e) end,
+              onSelect = function(d)
+                  if busy then return end
+                  busy = true
+                  local ped = PlayerPedId()
+                  TaskStartScenarioInPlace(ped, joaat('WORLD_HUMAN_CROUCH_INSPECT'), -1, true, false, false, false)
+                  local done = true
+                  if GetResourceState('lxr-nui') == 'started' then
+                      local r = nil
+                      exports['lxr-nui']:Progress({ label = Lang:t('ui.searching'), duration = Config.Loot.seconds * 1000, canCancel = true }, function(ok) r = ok end)
+                      while r == nil do Wait(50) end
+                      done = r
+                  else Wait(Config.Loot.seconds * 1000) end
+                  ClearPedTasks(ped)
+                  busy = false
+                  if done then TriggerServerEvent('lxr-frontier:server:loot', NetworkGetNetworkIdFromEntity(d.entity)) end
+              end },
+        }})
+    end)
+end
+
 if Config.Teleports.on and #Config.Teleports.pairs > 0 then
     CreateThread(function()
         while GetResourceState('lxr-interact') ~= 'started' do Wait(1000) end

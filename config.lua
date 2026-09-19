@@ -79,6 +79,21 @@ Config.Wash = {
     },
 }
 
+-- searching the dead: a card on any dead person of the world (not players — lxr-inventory's Search covers them);
+-- one search per body, a few coins and sometimes a thing from the table. Cash is in cents.
+Config.Loot = {
+    on = true,
+    seconds = 4,
+    cash = { chance = 0.65, min = 5, max = 150 },
+    items = {                                   -- catalog items, each rolled on its own
+        { item = 'cigarette', chance = 0.15, min = 1, max = 3 }, { item = 'whiskey', chance = 0.06 }, { item = 'bread', chance = 0.10 },
+        { item = 'ammo_revolver', chance = 0.12, min = 2, max = 6 }, { item = 'ammo_repeater', chance = 0.08, min = 2, max = 6 },
+        { item = 'bandage', chance = 0.08 }, { item = 'pocket_watch', chance = 0.02 }, { item = 'ring_silver', chance = 0.02 },
+    },
+    distance = 2.0,
+    rememberMinutes = 30,                       -- a body stays "searched" this long (the ped is usually gone sooner)
+}
+
 -- the game's eagle eye (tracking vision): false locks it for everyone
 Config.EagleEye = { on = true, allowed = false }
 

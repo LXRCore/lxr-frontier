@@ -1,6 +1,7 @@
 # Changelog
 
 ## 3.0.0 — 2026-09-19
+* Searching the dead: a card on any dead person of the world — a few coins and sometimes a thing from the table, once per body (`Config.Loot`); event `lxr:frontier:looted`.
 * Washing: a bath at the seven bathhouse tubs for a fee (cleanliness to full, dirt and blood gone) and `/wash` at any water's edge (`Config.Wash`); the need is lxr-hud's.
 * LXRCore v3 release line: every resource ships as 3.0.0 from here (the entries below are the road to it).
 * The density loop is marked as the one reviewed per-frame loop ("ThisFrame" natives).

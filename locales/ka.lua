@@ -7,7 +7,7 @@
 Locale.Register('ka', {
     afk = { warn = 'დიდი ხანია უძრავად დგახარ. %{minutes} წუთი და სერვერი გაგიშვებს.', kicked = '%{minutes} წუთი უმოქმედოდ. დაბრუნდი, როცა დაბრუნდები.' },
     presence = { line = '%{name} — %{n} ქალაქში' },
-    ui = { door = 'კარი', go_through = 'გავლა' , washing = 'ბანაობა', take_bath = 'აბაზანა ($%{fee})' },
-    info = { washed = 'სუფთა ხარ.' },
+    ui = { door = 'კარი', go_through = 'გავლა' , washing = 'ბანაობა', take_bath = 'აბაზანა ($%{fee})', body = 'გვამი', search_body = 'გვამის გაჩხრეკა', searching = 'ჯიბეების გაჩხრეკა' },
+    info = { washed = 'სუფთა ხარ.', already_searched = 'ვიღაცამ უკვე გაჩხრიკა.', found = 'იპოვე: %{what}.', nothing_on_them = 'არაფერი აქვს.' },
     error = { no_water = 'აქ წყალი არ არის.', no_money = 'აბაზანას ვერ იხდი.' },
 })
