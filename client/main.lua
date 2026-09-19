@@ -74,6 +74,62 @@ end
 -- ═══════════════════════════════════════════════════════════════════════════════
 -- 🚪 DOORS THAT GO SOMEWHERE
 -- ═══════════════════════════════════════════════════════════════════════════════
+-- ═══════════════════════════════════════════════════════════════════════════════
+-- 🛁 WASHING — the tubs, or any water
+-- ═══════════════════════════════════════════════════════════════════════════════
+local washing = false
+local function nearWater()
+    local ped = PlayerPedId()
+    local c = GetEntityCoords(ped)
+    local f = GetEntityForwardVector(ped)
+    for _, d in ipairs({ 1.0, 2.0, 3.5 }) do
+        local p = c + f * d
+        local ok, h = GetWaterHeight(p.x, p.y, p.z)
+        if ok and math.abs(h - p.z) < 2.0 then return true end
+    end
+    return false
+end
+local function wash(kind, tubId)
+    if washing or not Config.Wash.on then return end
+    local W = Config.Wash[kind]
+    washing = true
+    local ped = PlayerPedId()
+    TaskStartScenarioInPlace(ped, joaat(Config.Wash.pose), -1, true, false, false, false)
+    local done = true
+    if GetResourceState('lxr-nui') == 'started' then
+        local d = nil
+        exports['lxr-nui']:Progress({ label = Lang:t('ui.washing'), duration = W.seconds * 1000, canCancel = true }, function(ok) d = ok end)
+        while d == nil do Wait(50) end
+        done = d
+    else Wait(W.seconds * 1000) end
+    ClearPedTasks(ped)
+    washing = false
+    if not done then return end
+    TriggerServerEvent('lxr-frontier:server:washed', kind, tubId)
+end
+RegisterNetEvent('lxr-frontier:client:washed', function()
+    local ped = PlayerPedId()
+    ClearPedEnvDirt(ped)
+    ClearPedBloodDamage(ped)
+    SetPedDirtCleaned(ped, 0.0, -1, true, true)   -- (ped, 0f, -1, true, true) as the game scripts call it
+    LXRCore.Notify(Lang:t('info.washed'), 'success')
+end)
+RegisterCommand(Config.Wash.command or 'wash', function()
+    if not Config.Wash.on or not LocalPlayer.state.isLoggedIn then return end
+    if not nearWater() then return LXRCore.Notify(Lang:t('error.no_water'), 'error') end
+    wash('water')
+end, false)
+if Config.Wash.on then
+    CreateThread(function()
+        while GetResourceState('lxr-interact') ~= 'started' do Wait(1000) end
+        for _, tub in ipairs(Config.Wash.tubs) do
+            exports['lxr-interact']:AddPoint('lxr-frontier:tub:' .. tub.id, tub.coords, { label = tub.label, distance = 2.0, options = {
+                { label = Lang:t('ui.take_bath', { fee = ('%.2f'):format(Config.Wash.bath.fee or 0) }), key = 'E', onSelect = function() wash('bath', tub.id) end },
+            }})
+        end
+    end)
+end
+
 if Config.Teleports.on and #Config.Teleports.pairs > 0 then
     CreateThread(function()
         while GetResourceState('lxr-interact') ~= 'started' do Wait(1000) end

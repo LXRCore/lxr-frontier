@@ -39,3 +39,5 @@ ensure lxr-frontier
 ## Licence
 
 © 2026 iBoss21 / LXRCore — All Rights Reserved. See `LICENSE`.
+
+* **Washing** — a bath at the bathhouse tubs for a fee, or `/wash` at any water. `Config.Wash`.

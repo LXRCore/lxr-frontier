@@ -59,6 +59,26 @@ Config.Teleports = {
     distance = 1.5,
 }
 
+-- washing: the bathhouse tubs (a fee, cleanliness to full, dirt and blood gone) and any water (`/wash` standing by
+-- a river or lake — cheaper and slower). Cleanliness is lxr-hud's need; without lxr-hud only the dirt is cleared.
+Config.Wash = {
+    on = true,
+    command = 'wash',
+    water = { seconds = 12, cleanliness = 60, distance = 4.0 },                       -- a wash at the water's edge
+    bath = { seconds = 20, cleanliness = 100, fee = 0.50, account = 'cash' },
+    pose = 'WORLD_HUMAN_CROUCH_INSPECT',                                             -- the kneel while washing (game scenario)
+    -- the tubs (game coordinates of the bathhouses)
+    tubs = {
+        { id = 'valentine',  label = 'Valentine Bathhouse',   coords = vector3(-320.56, 762.41, 117.44) },
+        { id = 'saintdenis', label = 'Saint Denis Bathhouse', coords = vector3(2632.60, -1223.79, 59.59) },
+        { id = 'blackwater', label = 'Blackwater Bathhouse',  coords = vector3(-822.82, -1315.72, 43.58) },
+        { id = 'rhodes',     label = 'Rhodes Bathhouse',      coords = vector3(1340.11, -1379.60, 84.28) },
+        { id = 'strawberry', label = 'Strawberry Bathhouse',  coords = vector3(-1816.45, -372.44, 166.50) },
+        { id = 'annesburg',  label = 'Annesburg Bathhouse',   coords = vector3(2950.42, 1332.15, 44.44) },
+        { id = 'vanhorn',    label = 'Van Horn Bathhouse',    coords = vector3(2986.31, 568.27, 47.85) },
+    },
+}
+
 -- the game's eagle eye (tracking vision): false locks it for everyone
 Config.EagleEye = { on = true, allowed = false }
 
