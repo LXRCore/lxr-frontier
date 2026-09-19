@@ -62,4 +62,10 @@ Config.Teleports = {
 -- the game's eagle eye (tracking vision): false locks it for everyone
 Config.EagleEye = { on = true, allowed = false }
 
+-- the game's lawmen ignore players unless they are "wanted", and RedM has no wanted state: this sets
+-- ped config flag 98 (CanAttackNonWantedPlayerAsLaw) on every lawman the game creates, so they draw
+-- and return fire like they would in the story. `groups` are relationship groups (REL_COP is the
+-- one the game's law peds carry); `flag` is the config flag id
+Config.Law = { reactToPlayers = true, groups = { 'REL_COP' }, flag = 98 }
+
 Config.Debug = { printBanner = true }

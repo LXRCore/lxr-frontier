@@ -15,6 +15,7 @@ in `config.lua`; off means the code does not run. There is no interface.
 | `HandsUp` | hold a key, hands in the air; `LocalPlayer.state.handsup` for robberies | client |
 | `Teleports` | pairs of points through lxr-interact with a fade | client |
 | `EagleEye` | lock or allow the game's tracking vision | client |
+| `Law` | the game's lawmen shoot back at players (ped config flag 98 on every REL_COP ped the game creates — RedM has no wanted state, so they ignore players otherwise) | client |
 
 Consumables are not here: the core catalog's `use` and `effects` already
 handle food, drink and medicine. Model blacklists and event checks are

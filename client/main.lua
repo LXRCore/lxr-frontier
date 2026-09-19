@@ -6,6 +6,7 @@
 local LXRCore = exports['lxr-core']:GetCoreObject()
 local F = LXRFrontier
 local N = Citizen.InvokeNative
+local LXR = exports['lxr-core']:GetLXR()
 
 -- ═══════════════════════════════════════════════════════════════════════════════
 -- 🐎 DENSITY — the game's per-frame multipliers
@@ -102,6 +103,27 @@ if Config.EagleEye.on then
             N(0xA63FCAD3A6FEC6D2, PlayerId(), Config.EagleEye.allowed)   -- EnableEagleeye
             Wait(5000)
         end
+    end)
+end
+
+-- ═══════════════════════════════════════════════════════════════════════════════
+-- ⭐ THE LAW REACTS — lawmen shoot back at players (they do not, out of the box)
+-- ═══════════════════════════════════════════════════════════════════════════════
+if Config.Law.reactToPlayers then
+    local groups = {}
+    for _, g in ipairs(Config.Law.groups) do groups[joaat(g)] = true end
+    local function arm(ped)
+        if ped == 0 or not DoesEntityExist(ped) or IsPedAPlayer(ped) then return end
+        if groups[N(0x7DBDD04862D95F04, ped, Citizen.ReturnResultAnyway(), Citizen.ResultAsInteger())] then   -- GetPedRelationshipGroupHash
+            N(0x1913FE4CBF41C463, ped, Config.Law.flag, true)   -- SetPedConfigFlag
+        end
+    end
+    -- every lawman the game makes from now on …
+    LXR.Game.On('EVENT_PED_CREATED', 1, function(data) arm(data[1]) end)
+    -- … and the ones already standing when this resource started
+    CreateThread(function()
+        Wait(2000)
+        for _, ped in ipairs(GetGamePool('CPed')) do arm(ped) end
     end)
 end
 

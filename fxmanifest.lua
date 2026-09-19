@@ -25,7 +25,7 @@ lua54 'yes'
 name 'lxr-frontier'
 author 'iBoss21 / LXRCore'
 description 'LXRCore v3 frontier: the small things — ambient density, presence, idle kick, hands up, doors that go somewhere, eagle eye'
-version '3.0.0'
+version '3.1.0'
 repository 'https://github.com/LXRCore/lxr-frontier'
 
 shared_scripts {
